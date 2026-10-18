@@ -53,27 +53,28 @@
 
         // Each layer's keys sit on the same hand as the thumb that holds it, so one hand does it alone
         // (NAV on the left, the right hand stays on the trackpad); the other hand's home row holds the modifiers.
-        // Thumbs: F18 (VoiceInk, hold to talk)  Space/NAV  Cmd | Enter/NUM  Bksp (repeats when held)  Esc/MEDIA
+        // Thumbs: F18 (VoiceInk, hold to talk)  Cmd  Space/NAV | Bksp (repeats when held)  Esc/MEDIA  Enter/NUM
+        // (Space and Bksp on the two innermost thumbs, out of the way of the letters)
         base {
             display-name = "BASE";
             bindings = <
 &none &kp Q          &kp W          &kp E          &kp R           &kp T      &kp Y &kp U           &kp I          &kp O          &kp P            &none
 &none &hml LCTRL A   &hml LALT S    &hml LGUI D    &hml LSHFT F    &kp G      &kp H &hmr RSHFT J    &hmr RGUI K    &hmr RALT L    &hmr RCTRL SQT   &none
 &none &kp Z          &kp X          &kp C          &kp V           &kp B      &kp N &kp M           &kp COMMA      &kp DOT        &kp FSLH         &none
-                     &kp F18        &lt NAV SPACE  &kp LGUI        &lt NUM RET    &kp BSPC        &lt MEDIA ESC
+                     &kp F18        &kp LGUI       &lt NAV SPACE   &kp BSPC       &lt MEDIA ESC   &lt NUM RET
             >;
         };
 
         // hold Space: left hand navigates. E S D F arrows, A Tab, Z undo, X redo, C copy, V paste;
         // W/R Back/Fwd = Cmd+[ ], Q/T Space<-/-> = Ctrl+arrows, G Mission Control = Ctrl+Up, B screenshot = Cmd+Shift+4;
-        // right hand U/I: tab left / tab right (Cmd+Shift+[ ], Chrome and most Mac apps)
+        // right hand U/I: tab left / tab right (Cmd+Shift+[ ], Chrome and most Mac apps); right thumbs Bksp, Del (on Esc), Enter
         nav {
             display-name = "NAV";
             bindings = <
 &none &kp LC(LEFT)  &kp LG(LBKT)   &kp UP     &kp LG(RBKT)  &kp LC(RIGHT)     &none  &kp LG(LS(LBKT))  &kp LG(LS(RBKT))  &none  &none  &none
 &none &kp TAB       &kp LEFT       &kp DOWN   &kp RIGHT     &kp LC(UP)        &none  &kp RSHFT  &kp RGUI  &kp RALT  &kp RCTRL  &none
 &none &kp LG(Z)     &kp LG(LS(Z))  &kp LG(C)  &kp LG(V)     &kp LG(LS(N4))    &none  &none      &none     &none     &none      &none
-                                   &trans     &trans        &trans            &kp RET      &kp BSPC     &kp DEL
+                                   &trans     &trans        &trans            &kp BSPC     &kp DEL      &kp RET
             >;
         };
 
@@ -89,7 +90,7 @@
             >;
         };
 
-        // hold Esc (right thumb): Bluetooth devices, media, brightness on the right hand, mirrored from the left so each
+        // hold Esc (right middle thumb): Bluetooth devices, media, brightness on the right hand, mirrored from the left so each
         // finger does what it did; bottom row: M unlocks ZMK Studio, N locks the screen (Ctrl+Cmd+Q)
         media {
             display-name = "MEDIA";
