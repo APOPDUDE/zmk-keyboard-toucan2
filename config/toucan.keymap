@@ -7,9 +7,8 @@
 #define BASE  0
 #define NAV   1
 #define NUM   2
-#define SYM   3
-#define MEDIA 4
-#define MOUSE 5   // boards/shields/toucan/toucan.dtsi turns it on with &mo 5 while a finger is on the trackpad
+#define MEDIA 3
+#define MOUSE 4   // boards/shields/toucan/toucan.dtsi turns it on with &mo 4 while a finger is on the trackpad
 
 // key positions: left hand, right hand, thumbs
 #define KEYS_L 0 1 2 3 4 5 12 13 14 15 16 17 24 25 26 27 28 29
@@ -54,59 +53,51 @@
 
         // Each layer's keys sit on the same hand as the thumb that holds it, so one hand does it alone
         // (NAV on the left, the right hand stays on the trackpad); the other hand's home row holds the modifiers.
-        // Thumbs: F18 (VoiceInk, hold to talk)  Space/NAV  Esc/MEDIA | Enter/NUM  Bksp (repeats when held)  Del/SYM
+        // Thumbs: F18 (VoiceInk, hold to talk)  Space/NAV  Cmd | Enter/NUM  Bksp (repeats when held)  Esc/MEDIA
         base {
             display-name = "BASE";
             bindings = <
 &none &kp Q          &kp W          &kp E          &kp R           &kp T      &kp Y &kp U           &kp I          &kp O          &kp P            &none
 &none &hml LCTRL A   &hml LALT S    &hml LGUI D    &hml LSHFT F    &kp G      &kp H &hmr RSHFT J    &hmr RGUI K    &hmr RALT L    &hmr RCTRL SQT   &none
 &none &kp Z          &kp X          &kp C          &kp V           &kp B      &kp N &kp M           &kp COMMA      &kp DOT        &kp FSLH         &none
-                     &kp F18        &lt NAV SPACE  &lt MEDIA ESC   &lt NUM RET    &kp BSPC        &lt SYM DEL
+                     &kp F18        &lt NAV SPACE  &kp LGUI        &lt NUM RET    &kp BSPC        &lt MEDIA ESC
             >;
         };
 
         // hold Space: left hand navigates. E S D F arrows, A Tab, Z undo, X redo, C copy, V paste;
-        // W/R Back/Fwd = Cmd+[ ], Q/T Space<-/-> = Ctrl+arrows, G Mission Control = Ctrl+Up, B screenshot = Cmd+Shift+4
+        // W/R Back/Fwd = Cmd+[ ], Q/T Space<-/-> = Ctrl+arrows, G Mission Control = Ctrl+Up, B screenshot = Cmd+Shift+4;
+        // right hand U/I: tab left / tab right (Cmd+Shift+[ ], Chrome and most Mac apps)
         nav {
             display-name = "NAV";
             bindings = <
-&none &kp LC(LEFT)  &kp LG(LBKT)   &kp UP     &kp LG(RBKT)  &kp LC(RIGHT)     &none  &none      &none     &none     &none      &none
+&none &kp LC(LEFT)  &kp LG(LBKT)   &kp UP     &kp LG(RBKT)  &kp LC(RIGHT)     &none  &kp LG(LS(LBKT))  &kp LG(LS(RBKT))  &none  &none  &none
 &none &kp TAB       &kp LEFT       &kp DOWN   &kp RIGHT     &kp LC(UP)        &none  &kp RSHFT  &kp RGUI  &kp RALT  &kp RCTRL  &none
 &none &kp LG(Z)     &kp LG(LS(Z))  &kp LG(C)  &kp LG(V)     &kp LG(LS(N4))    &none  &none      &none     &none     &none      &none
                                    &trans     &trans        &trans            &kp RET      &kp BSPC     &kp DEL
             >;
         };
 
-        // hold Enter: numpad on the right hand, $ and % on the left; 0, Bksp and Enter on the left thumbs
+        // hold Enter: numpad on the right hand, $ and % on the left; 0, Bksp and Enter on the left thumbs;
+        // left bottom row ; = [ ] \ and Q ` (the symbols no other layer has); hold F (Shift) for : + { } | ~, and Shift+digit for ! @ # ^ & ( )
         num {
             display-name = "NUM";
             bindings = <
-&none &none      &none     &kp DLLR  &kp PRCNT  &none      &kp ASTRK  &kp N7  &kp N8  &kp N9  &kp MINUS  &none
+&none &kp GRAVE  &none     &kp DLLR  &kp PRCNT  &none      &kp ASTRK  &kp N7  &kp N8  &kp N9  &kp MINUS  &none
 &none &kp LCTRL  &kp LALT  &kp LGUI  &kp LSHFT  &none      &kp FSLH   &kp N4  &kp N5  &kp N6  &kp PLUS   &none
-&none &none      &none     &none     &none      &none      &kp COMMA  &kp N1  &kp N2  &kp N3  &kp DOT    &none
+&none &kp SEMI   &kp EQUAL &kp LBKT  &kp RBKT   &kp BSLH   &kp COMMA  &kp N1  &kp N2  &kp N3  &kp DOT    &none
                            &kp RET   &kp BSPC   &kp N0     &trans     &trans  &trans
             >;
         };
 
-        // hold Del: symbols on the right hand; hold F (Shift) for _ + { } : ~ |
-        sym {
-            display-name = "SYM";
-            bindings = <
-&none &none      &none     &none     &none      &none      &kp EXCL   &kp AT     &kp HASH   &kp DLLR  &kp PRCNT  &none
-&none &kp LCTRL  &kp LALT  &kp LGUI  &kp LSHFT  &none      &kp CARET  &kp AMPS   &kp ASTRK  &kp LPAR  &kp RPAR   &none
-&none &none      &none     &none     &none      &none      &kp GRAVE  &kp MINUS  &kp EQUAL  &kp LBKT  &kp RBKT   &none
-                           &kp SEMI  &kp BSLH   &trans     &trans     &trans     &trans
-            >;
-        };
-
-        // hold Esc: Bluetooth devices, media, brightness on the left hand; bottom row: V unlocks ZMK Studio, B locks the screen (Ctrl+Cmd+Q)
+        // hold Esc (right thumb): Bluetooth devices, media, brightness on the right hand, mirrored from the left so each
+        // finger does what it did; bottom row: M unlocks ZMK Studio, N locks the screen (Ctrl+Cmd+Q)
         media {
             display-name = "MEDIA";
             bindings = <
-&none &bt BT_SEL 0   &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_CLR       &none  &none  &none  &none  &none  &none
-&none &kp C_PREV     &kp C_VOL_DN    &kp C_VOL_UP    &kp C_NEXT      &kp C_PP         &none  &none  &none  &none  &none  &none
-&none &kp C_BRI_DN   &kp C_BRI_UP    &kp C_MUTE      &studio_unlock  &kp LC(LG(Q))    &none  &none  &none  &none  &none  &none
-                                     &trans          &trans          &trans           &trans &trans &trans
+&none  &none  &none  &none  &none  &none      &bt BT_CLR       &bt BT_SEL 3    &bt BT_SEL 2    &bt BT_SEL 1    &bt BT_SEL 0   &none
+&none  &none  &none  &none  &none  &none      &kp C_PP         &kp C_NEXT      &kp C_VOL_UP    &kp C_VOL_DN    &kp C_PREV     &none
+&none  &none  &none  &none  &none  &none      &kp LC(LG(Q))    &studio_unlock  &kp C_MUTE      &kp C_BRI_UP    &kp C_BRI_DN   &none
+                     &trans &trans &trans     &trans           &trans          &trans
             >;
         };
 
