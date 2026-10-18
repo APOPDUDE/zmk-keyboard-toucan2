@@ -118,14 +118,16 @@
             bindings  = <&mo 5>;            // the MOUSE layer (config/toucan.keymap) while a finger is on the pad
         };
 
-        swipe_button_mapper: swipe_button_mapper {
-            compatible = "zmk,input-processor-behaviors";
+        // Two-finger swipes while a thumb holds a layer (the gestures override below): the Mac's three-finger
+        // gestures, one per swipe. Bindings by finger direction: up, right, down, left.
+        zip_swipe_keys: zip_swipe_keys {
+            compatible = "zmk,input-processor-swipe-keys";
             #input-processor-cells = <0>;
-            codes = <INPUT_BTN_NORTH INPUT_BTN_EAST INPUT_BTN_SOUTH INPUT_BTN_WEST>;
 #ifdef TOUCAN_WIN_MODE
             bindings = <&kp LG(TAB)>, <&kp LG(RIGHT)>, <&kp LG(D)>, <&kp LG(LEFT)>;
 #else
-            bindings = <&kp LC(UP)>, <&kp LC(RIGHT)>, <&kp LC(DOWN)>, <&kp LC(LEFT)>;
+            // fingers left = the Space to the right, as on a Mac trackpad
+            bindings = <&kp LC(UP)>, <&kp LC(LEFT)>, <&kp LC(DOWN)>, <&kp LC(RIGHT)>;
 #endif
         };
     };
@@ -145,7 +147,14 @@
         compatible = "zmk,input-listener";
         status = "disabled";
         device = <&trackpad_split>;
-        input-processors = <&zip_xy_scaler 100 100>, <&zip_scroll_scaler 1 20>, <&zip_zoom_mapper>, <&is_touching_processor>, <&swipe_button_mapper>;
+        input-processors = <&zip_xy_scaler 100 100>, <&zip_scroll_scaler 1 20>, <&zip_zoom_mapper>, <&is_touching_processor>;
+        // Holding Space, Bksp, Enter or Del (NAV 1, NUM 2, SYM 3, MEDIA 4 in config/toucan.keymap): two-finger
+        // swipes are gestures instead of scroll. Before the scroller, so NAV's one-finger scroll is not caught.
+        gestures {
+            layers = <1 2 3 4>;
+            input-processors = <&zip_swipe_keys>;
+            process-next;
+        };
         scroller {
             layers = <1>;
             input-processors = <

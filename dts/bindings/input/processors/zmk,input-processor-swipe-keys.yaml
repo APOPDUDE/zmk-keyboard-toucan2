@@ -1,0 +1,25 @@
+description: |
+  One key press per two-finger swipe (src/input_processor_swipe_keys.c).
+
+  Sums the trackpad's two-finger scroll per axis; the first axis to reach `threshold` fires its binding once,
+  and the rest of that swipe is swallowed. Every scroll event it sees is consumed.
+
+  bindings, by the direction the fingers move: up, right, down, left.
+
+compatible: "zmk,input-processor-swipe-keys"
+
+include: ip_zero_param.yaml
+
+properties:
+  threshold:
+    type: int
+    default: 60
+    description: Scroll units on one axis before the swipe fires (the listener shows 20 units as one wheel step).
+  gap-ms:
+    type: int
+    default: 300
+    description: A pause longer than this with no scroll starts a new swipe.
+  bindings:
+    type: phandle-array
+    required: true
+    description: "[up, right, down, left] behavior bindings, by finger direction."
