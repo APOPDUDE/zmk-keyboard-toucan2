@@ -54,14 +54,14 @@
 
         // Each layer's keys sit on the same hand as the thumb that holds it, so one hand does it alone
         // (NAV on the left, the right hand stays on the trackpad); the other hand's home row holds the modifiers.
-        // Thumbs: F18 (VoiceInk, hold to talk)  Space/NAV  Esc | Enter/SYM  Bksp/NUM  Del/MEDIA
+        // Thumbs: F18 (VoiceInk, hold to talk)  Space/NAV  Esc/MEDIA | Enter/NUM  Bksp (repeats when held)  Del/SYM
         base {
             display-name = "BASE";
             bindings = <
 &none &kp Q          &kp W          &kp E          &kp R           &kp T      &kp Y &kp U           &kp I          &kp O          &kp P            &none
 &none &hml LCTRL A   &hml LALT S    &hml LGUI D    &hml LSHFT F    &kp G      &kp H &hmr RSHFT J    &hmr RGUI K    &hmr RALT L    &hmr RCTRL SQT   &none
 &none &kp Z          &kp X          &kp C          &kp V           &kp B      &kp N &kp M           &kp COMMA      &kp DOT        &kp FSLH         &none
-                     &kp F18        &lt NAV SPACE  &kp ESC         &lt SYM RET    &lt NUM BSPC    &lt MEDIA DEL
+                     &kp F18        &lt NAV SPACE  &lt MEDIA ESC   &lt NUM RET    &kp BSPC        &lt SYM DEL
             >;
         };
 
@@ -77,7 +77,7 @@
             >;
         };
 
-        // hold Bksp: numpad on the right hand, $ and % on the left; 0, Bksp and Enter on the left thumbs
+        // hold Enter: numpad on the right hand, $ and % on the left; 0, Bksp and Enter on the left thumbs
         num {
             display-name = "NUM";
             bindings = <
@@ -88,7 +88,7 @@
             >;
         };
 
-        // hold Enter: symbols on the right hand; hold F (Shift) for _ + { } : ~ |
+        // hold Del: symbols on the right hand; hold F (Shift) for _ + { } : ~ |
         sym {
             display-name = "SYM";
             bindings = <
@@ -99,14 +99,14 @@
             >;
         };
 
-        // hold Del: Bluetooth devices, media, brightness on the right hand; bottom row: . unlocks ZMK Studio, / locks the screen (Ctrl+Cmd+Q)
+        // hold Esc: Bluetooth devices, media, brightness on the left hand; bottom row: V unlocks ZMK Studio, B locks the screen (Ctrl+Cmd+Q)
         media {
             display-name = "MEDIA";
             bindings = <
-&none &none  &none  &none  &none  &none    &bt BT_SEL 0   &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_CLR      &none
-&none &none  &none  &none  &none  &none    &kp C_PREV     &kp C_VOL_DN    &kp C_VOL_UP    &kp C_NEXT      &kp C_PP        &none
-&none &none  &none  &none  &none  &none    &kp C_BRI_DN   &kp C_BRI_UP    &kp C_MUTE      &studio_unlock  &kp LC(LG(Q))   &none
-                    &trans &trans &trans   &trans         &trans          &trans
+&none &bt BT_SEL 0   &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_CLR       &none  &none  &none  &none  &none  &none
+&none &kp C_PREV     &kp C_VOL_DN    &kp C_VOL_UP    &kp C_NEXT      &kp C_PP         &none  &none  &none  &none  &none  &none
+&none &kp C_BRI_DN   &kp C_BRI_UP    &kp C_MUTE      &studio_unlock  &kp LC(LG(Q))    &none  &none  &none  &none  &none  &none
+                                     &trans          &trans          &trans           &trans &trans &trans
             >;
         };
 

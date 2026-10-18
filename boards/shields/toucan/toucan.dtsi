@@ -148,7 +148,7 @@
         status = "disabled";
         device = <&trackpad_split>;
         input-processors = <&zip_xy_scaler 100 100>, <&zip_scroll_scaler 1 20>, <&zip_zoom_mapper>, <&is_touching_processor>;
-        // Holding Space, Bksp, Enter or Del (NAV 1, NUM 2, SYM 3, MEDIA 4 in config/toucan.keymap): two-finger
+        // Holding Space, Enter, Del or Esc (NAV 1, NUM 2, SYM 3, MEDIA 4 in config/toucan.keymap): two-finger
         // swipes are gestures instead of scroll. Before the scroller, so NAV's one-finger scroll is not caught.
         gestures {
             layers = <1 2 3 4>;
@@ -161,6 +161,9 @@
                 &zip_xy_to_scroll_mapper
                 &zip_scroll_scaler 1 20
                 &zip_scroll_transform INPUT_TRANSFORM_X_INVERT
+                // the MOUSE layer's touch on/off here too: this override skips the base list, and a lift that
+                // landed only here left the MOUSE layer on (Space and Del clicking instead of typing)
+                &is_touching_processor
             >;
         };
     };
