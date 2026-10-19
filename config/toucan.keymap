@@ -46,6 +46,27 @@
             hold-trigger-key-positions = <KEYS_L THUMBS>;
             hold-trigger-on-release;
         };
+        // middle left thumb: hold = NAV, tap = one-shot Shift (the next letter is a capital); a letter pressed with it
+        // and both released inside the 200 ms is a capital too
+        nav_shift: nav_or_sticky_shift {
+            compatible = "zmk,behavior-hold-tap";
+            display-name = "NAV / Shift";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            bindings = <&mo>, <&sk>;
+        };
+        // inner left thumb: tap = Space, hold = Cmd after 200 ms (tap-preferred, as Space/NAV was, so fast typing never
+        // fires Cmd); tap then hold repeats Space
+        cmd_space: cmd_or_space {
+            compatible = "zmk,behavior-hold-tap";
+            display-name = "Cmd / Space";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            bindings = <&kp>, <&kp>;
+        };
     };
 
     keymap {
@@ -53,7 +74,7 @@
 
         // Each layer's keys sit on the same hand as the thumb that holds it, so one hand does it alone
         // (NAV on the left, the right hand stays on the trackpad); the other hand's home row holds the modifiers.
-        // Thumbs: F18 (VoiceInk, hold to talk)  Cmd  Space/NAV | Bksp (repeats when held)  Esc/MEDIA  Enter/NUM
+        // Thumbs: F18 (VoiceInk, hold to talk)  Shift/NAV (tap = one-shot Shift)  Space/Cmd | Bksp (repeats when held)  Esc/MEDIA  Enter/NUM
         // (Space and Bksp on the two innermost thumbs, out of the way of the letters)
         base {
             display-name = "BASE";
@@ -61,11 +82,11 @@
 &none &kp Q          &kp W          &kp E          &kp R           &kp T      &kp Y &kp U           &kp I          &kp O          &kp P            &none
 &none &hml LCTRL A   &hml LALT S    &hml LGUI D    &hml LSHFT F    &kp G      &kp H &hmr RSHFT J    &hmr RGUI K    &hmr RALT L    &hmr RCTRL SQT   &none
 &none &kp Z          &kp X          &kp C          &kp V           &kp B      &kp N &kp M           &kp COMMA      &kp DOT        &kp FSLH         &none
-                     &kp F18        &kp LGUI       &lt NAV SPACE   &kp BSPC       &lt MEDIA ESC   &lt NUM RET
+                     &kp F18        &nav_shift NAV LSHFT  &cmd_space LGUI SPACE   &kp BSPC       &lt MEDIA ESC   &lt NUM RET
             >;
         };
 
-        // hold Space: left hand navigates. E S D F arrows, A Tab, Z undo, X redo, C copy, V paste;
+        // hold the middle left thumb: left hand navigates. E S D F arrows, A Tab, Z undo, X redo, C copy, V paste;
         // W/R Back/Fwd = Cmd+[ ], Q/T Space<-/-> = Ctrl+arrows, G Mission Control = Ctrl+Up, B screenshot = Cmd+Shift+4;
         // right hand U/I: tab left / tab right (Cmd+Shift+[ ], Chrome and most Mac apps); right thumbs Bksp, Del (on Esc), Enter
         nav {
