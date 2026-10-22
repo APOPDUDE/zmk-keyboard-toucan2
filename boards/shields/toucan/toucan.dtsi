@@ -148,10 +148,10 @@
         status = "disabled";
         device = <&trackpad_split>;
         input-processors = <&zip_xy_scaler 100 100>, <&zip_scroll_scaler 1 20>, <&zip_zoom_mapper>, <&is_touching_processor>;
-        // Holding the middle left thumb, Enter or Esc (NAV 1, NUM 2, MEDIA 3 in config/toucan.keymap): two-finger
-        // swipes are gestures instead of scroll. Before the scroller, so NAV's one-finger scroll is not caught.
+        // Holding the middle left thumb, Enter, Esc or Bksp (NAV 1, NUM 2, MEDIA 3, SWIPE 5 in config/toucan.keymap):
+        // two-finger swipes are gestures instead of scroll. Before the scroller, so NAV's one-finger scroll is not caught.
         gestures {
-            layers = <1 2 3>;
+            layers = <1 2 3 5>;
             input-processors = <&zip_swipe_keys>;
             process-next;
         };
