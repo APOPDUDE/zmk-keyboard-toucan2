@@ -69,9 +69,38 @@
             quick-tap-ms = <175>;
             bindings = <&kp>, <&kp>;
         };
+        // MEDIA's Bluetooth keys fire only when held a full second, so Esc held a moment too long and a word with a t
+        // in it never wipes the pairing (Q W E R pick a device, T clears it); a quick tap does nothing
+        bt_sel_hold: bt_select_on_hold {
+            compatible = "zmk,behavior-hold-tap";
+            display-name = "BT Select (hold 1 s)";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <1000>;
+            bindings = <&bt_sel_n>, <&none>;
+        };
+        bt_clr_hold: bt_clear_on_hold {
+            compatible = "zmk,behavior-hold-tap";
+            display-name = "BT Clear (hold 1 s)";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <1000>;
+            bindings = <&bt_clr_now>, <&none>;
+        };
     };
 
     macros {
+        // the device number from bt_sel_hold into &bt BT_SEL
+        bt_sel_n: bt_sel_n {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            bindings = <&macro_param_1to2>, <&bt BT_SEL MACRO_PLACEHOLDER>;
+        };
+        bt_clr_now: bt_clr_now {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&bt BT_CLR>;
+        };
         // inner right thumb: Bksp, held down it repeats as before, and while held two-finger swipes are the Mac
         // gestures (SWIPE on with it)
         bksp_swipe: bksp_swipe {
@@ -146,13 +175,13 @@
             >;
         };
 
-        // hold Esc (left outer thumb): Bluetooth devices, media, brightness on the left hand, mirrored back from the right
-        // so each finger does what it did; bottom row: Z flips the SOTSU monitor (Ctrl+Opt+R, caught by Hammerspoon on
-        // the Mac), V unlocks ZMK Studio, B locks the screen (Ctrl+Cmd+Q)
+        // hold Esc (left outer thumb): Bluetooth devices (each held a second, bt_sel_hold), media, brightness on the left
+        // hand, mirrored back from the right so each finger does what it did; bottom row: Z flips the SOTSU monitor
+        // (Ctrl+Opt+R, caught by Hammerspoon on the Mac), V unlocks ZMK Studio, B locks the screen (Ctrl+Cmd+Q)
         media {
             display-name = "MEDIA";
             bindings = <
-&none  &bt BT_SEL 0   &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_CLR         &none  &none  &none  &none  &none  &none
+&none  &bt_sel_hold 0 0  &bt_sel_hold 1 0  &bt_sel_hold 2 0  &bt_sel_hold 3 0  &bt_clr_hold 0 0  &none  &none  &none  &none  &none  &none
 &none  &kp C_PREV     &kp C_VOL_DN    &kp C_VOL_UP    &kp C_NEXT      &kp C_PP           &none  &none  &none  &none  &none  &none
 &none  &kp LC(LA(R))  &kp C_BRI_UP    &kp C_MUTE      &studio_unlock  &kp LC(LG(Q))      &none  &none  &none  &none  &none  &none
                                       &trans          &trans          &trans             &trans &trans &trans
